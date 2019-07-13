@@ -1,0 +1,39 @@
+.App .Header {
+    padding: 20px 15px 20px 0;
+    display: flex;
+    border: 1px solid #eee;
+    width: calc(100% - 15px);
+}
+
+.App .Header form {
+    width: 100%;
+}
+
+.App .Header input {
+    font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    font-size: 24px;
+    border: none;
+    color: #4d4d4d;
+    border-bottom: 1px solid #eee;
+    line-height: 1.5;
+    text-indent: 0.3rem;
+    width: 100%;
+}
+
+.Header .check-mark {
+    width: 30px;
+    height: 40px;
+    display: flex;
+    opacity: 0.2;
+    margin: 0 15px;
+    transition: all 0.1s ease-in-out;
+}
+
+.Header .check-all {
+    opacity: 1;
+}
+
+.App .Header input:focus {
+    outline: none;
+}

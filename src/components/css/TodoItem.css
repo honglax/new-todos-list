@@ -1,0 +1,51 @@
+.TodoItem {
+    padding: 10px 5px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+}
+
+.TodoItem:last-child {
+    border-bottom: none;
+}
+
+.TodoItem > p,
+.TodoItem > input {
+    font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    font-size: 24px;
+    color: #4d4d4d;
+    margin: 0 15px;
+    border: none;
+    width: 100%;
+    cursor: default;
+}
+
+.TodoItem > input:focus {
+    outline: none;
+    cursor: auto;
+}
+
+.TodoItem-completed > p,
+.TodoItem-completed > input {
+    text-decoration: line-through;
+    opacity: 0.3;
+}
+
+.TodoItem .check-mark {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+.TodoItem .close-btn {
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+}
+
+.TodoItem:hover .close-btn {
+    opacity: 0.8;
+}
