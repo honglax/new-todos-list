@@ -1,4 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Todos Web Application coded by Jason Lax with ReactJS
+
+## Release
+Open []
 
 ## Available Scripts
 

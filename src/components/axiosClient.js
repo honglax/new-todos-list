@@ -1,8 +1,10 @@
 const axios = require('axios');
 
+console.log(process.env.REACT_APP_BASE_URL);
+
 const axiosInstance = axios.create({
     // Set default url for Axios
-    baseURL: 'https://todos-api-server.herokuapp.com/items'
+    baseURL: process.env.REACT_APP_BASE_URL
 });
 
 module.exports = axiosInstance;
