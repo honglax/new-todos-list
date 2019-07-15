@@ -10,12 +10,12 @@ import { ItemProvider } from './contexts/Items.context';
 function App() {
     return (
         <ItemProvider>
-            <div className="App">
-                <h1>todos</h1>
-                <Header />
-                <ItemList />
-                <Footer />
-            </div>
+                <div className="App">
+                    <h1>todos</h1>
+                    <Header />
+                    <ItemList />
+                    <Footer />
+                </div>
         </ItemProvider>
     );
 }

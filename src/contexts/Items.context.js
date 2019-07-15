@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import axiosClient from '../components/axiosClient';
+import Loading from '../components/Loading';
+
+import '../App.css';
 
 export const ItemContext = React.createContext();
 
@@ -11,8 +14,15 @@ export class ItemProvider extends Component {
             todoItems: [],
             filteredItems: [],
             checkAll: false, //true or false
-            currentFilter: 'all' // all, active, completed
+            currentFilter: 'all', // all, active, completed
+            isLoading: false
         };
+    }
+
+    async showLoadingScreen() {
+        this.setState({
+            isLoading: true
+        });
     }
 
     compareDate(a, b) {
@@ -38,7 +48,8 @@ export class ItemProvider extends Component {
                 let fetchedItems = res.data.sort(this.compareDate);
                 this.setState({
                     todoItems: fetchedItems,
-                    checkAll: this.isCheckAll(fetchedItems)
+                    checkAll: this.isCheckAll(fetchedItems),
+                    isLoading: false
                 });
             })
             .catch(err => console.log(err));
@@ -51,26 +62,27 @@ export class ItemProvider extends Component {
             checkAll: checkAll !== null ? checkAll : this.state.checkAll,
             currentFilter: currentFilter
                 ? currentFilter
-                : this.state.currentFilter
+                : this.state.currentFilter,
+            isLoading: false
         });
     }
 
     addNewItem(item) {
-        axiosClient
-            .post('/', item)
-            .then(res => {
-                let newItems = this.state.todoItems
-                    .concat(res.data)
-                    .sort(this.compareDate);
-                this.handleSetTodoItems(
-                    newItems,
-                    null,
-                    this.state.currentFilter === 'completed'
-                        ? 'all'
-                        : this.state.currentFilter
-                );
-            })
-            .catch(err => console.log(err));
+        this.showLoadingScreen().then(
+            axiosClient
+                .post('/', item)
+                .then(res => {
+                    let newItems = this.state.todoItems
+                        .concat(res.data)
+                        .sort(this.compareDate);
+                    let nextFilter =
+                        this.state.currentFilter === 'completed'
+                            ? 'all'
+                            : this.state.currentFilter;
+                    this.handleSetTodoItems(newItems, null, nextFilter);
+                })
+                .catch(err => console.log(err))
+        );
     }
 
     updateItem(id, updatedItem, isUpdated = false) {
@@ -161,15 +173,7 @@ export class ItemProvider extends Component {
                 return null;
             } else return item;
         });
-
-        this.setState({
-            todoItems: unCompletedItems,
-            filteredItems: this.itemsFilter(
-                unCompletedItems,
-                this.state.currentFilter
-            )
-        });
-
+        this.handleSetTodoItems(unCompletedItems, false);
         axios
             .all(this.handleMultipleRequest(completedIds, 'delete'))
             .then(resArr => [...resArr])
@@ -225,7 +229,7 @@ export class ItemProvider extends Component {
     }
 
     componentDidMount() {
-        this.getAllItems();
+        this.showLoadingScreen().then(this.getAllItems());
     }
 
     render() {
@@ -246,6 +250,7 @@ export class ItemProvider extends Component {
                     handleShowCompleted: this.handleShowCompleted.bind(this)
                 }}
             >
+                <Loading isLoading={this.state.isLoading} />
                 {this.props.children}
             </ItemContext.Provider>
         );
