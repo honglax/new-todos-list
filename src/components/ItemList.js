@@ -7,16 +7,20 @@ import './css/TodoItem.css';
 
 function ItemList(props) {
     const { state } = useContext(ItemContext);
-    let { todoItems } = state;
+    let { todoItems, filteredItems, currentFilter } = state;
 
     let isContentHidden = classNames({
         'is-hidden': todoItems.length === 0
     });
 
+    if (currentFilter === 'all') {
+        filteredItems = todoItems;
+    }
+
     return (
         <div id="container" className={isContentHidden}>
             {todoItems.length > 0 &&
-                todoItems.map(item => <Item item={item} key={item._id} />)}
+                filteredItems.map(item => <Item item={item} key={item._id} />)}
         </div>
     );
 }

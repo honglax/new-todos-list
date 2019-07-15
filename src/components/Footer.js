@@ -5,27 +5,18 @@ import classNames from 'classnames';
 import { ItemContext } from '../contexts/Items.context';
 
 function Footer() {
-    const { state } = useContext(ItemContext);
-    let counter = items => {
-        let countTodo = 0;
-        items.forEach(item => {
-            if (!item.isCompleted) {
-                countTodo++;
-            }
-        });
-        return countTodo;
-    };
+    const {
+        state,
+        handleClearCompleted,
+        countItemsLeft,
+        handleShowAll,
+        handleShowActive,
+        handleShowCompleted
+    } = useContext(ItemContext);
 
-    let {
-        todoItems,
-        // clearCompleted,
-        // showAll,
-        // showActive,
-        // showCompleted,
-        currentFilter
-    } = state;
+    let { todoItems, currentFilter } = state;
 
-    let countTodo = counter(todoItems);
+    let countTodo = countItemsLeft(todoItems);
     let isFooterHidden = classNames({
         'is-hidden': todoItems.length === 0
     });
@@ -44,6 +35,7 @@ function Footer() {
                 <li>
                     <a
                         href="/#/"
+                        onClick={handleShowAll}
                         className={currentFilter === 'all' ? 'selected' : ''}
                     >
                         All
@@ -52,6 +44,7 @@ function Footer() {
                 <li>
                     <a
                         href="#/active"
+                        onClick={handleShowActive}
                         className={currentFilter === 'active' ? 'selected' : ''}
                     >
                         Active
@@ -60,6 +53,7 @@ function Footer() {
                 <li>
                     <a
                         href="#/completed"
+                        onClick={handleShowCompleted}
                         className={
                             currentFilter === 'completed' ? 'selected' : ''
                         }
@@ -69,7 +63,7 @@ function Footer() {
                 </li>
             </ul>
             <div className={clearDeletedClass}>
-                <button>Clear completed</button>
+                <button onClick={handleClearCompleted}>Clear completed</button>
             </div>
         </footer>
     );

@@ -2,14 +2,13 @@ import React, { useContext } from 'react';
 import '../App.css';
 import './css/Header.css';
 
-import axios from 'axios';
 import classNames from 'classnames';
 import { ItemContext } from '../contexts/Items.context';
 
 import tickedIcon from '../img/ticked.svg';
 
 function Header(props) {
-    const { state, addNewItem } = useContext(ItemContext);
+    const { state, addNewItem, itemCheckAll } = useContext(ItemContext);
     let handleSubmit = event => {
         event.preventDefault();
         let text = event.target.querySelector('input').value.trim();
@@ -23,17 +22,10 @@ function Header(props) {
             readOnly: true,
             createdAt: new Date()
         };
-        axios
-            .post('https://todo-items-api.herokuapp.com/items', newItem)
-            .then(res => {
-                console.log(res.data);
-                addNewItem(res.data);
-            })
-            .catch(err => console.log(err));
+        addNewItem(newItem);
     };
 
     let { todoItems, checkAll } = state;
-    console.log(todoItems);
 
     let headerCheckAll = classNames({
         'check-mark': true,
@@ -44,7 +36,7 @@ function Header(props) {
     return (
         <div className="Header">
             <div className={headerCheckAll}>
-                <img src={tickedIcon} alt="" />
+                <img src={tickedIcon} alt="" onClick={itemCheckAll} />
             </div>
             <form onSubmit={handleSubmit}>
                 <input type="text" placeholder="What need to be done?" />
