@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Todos Web Application coded by Jason Lax with ReactJS
 
 ## Release
-Open []
+https://jason-todos-app.herokuapp.com
 
 ## Available Scripts
 
